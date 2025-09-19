@@ -8,14 +8,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# -------------------- ASSETS --------------------
-ASSETS = Path("assets")
-def img(path, fallback_url):
-    p = ASSETS / path
-    if p.exists():
-        return str(p.as_posix())
-    return fallback_url
-
 # -------------------- GLOBAL STYLES --------------------
 st.markdown("""
 <style>
@@ -71,7 +63,7 @@ h3 { font-size: 1.15rem; font-weight: 700; color: var(--accent); text-transform:
   border-radius: 22px;
   background:
     linear-gradient(120deg, rgba(159,184,255,0.10), rgba(212,179,108,0.06)),
-    url('""" + img("pattern.jpg", "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg") + """');
+    url('""" + st.sidebar.image("https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg") + """');
   background-size: cover;
   background-position: center;
   border: 1px solid rgba(255,255,255,0.08);
@@ -130,7 +122,7 @@ section[data-testid="stSidebar"] {
 
 # -------------------- SIDEBAR NAV --------------------
 st.sidebar.image(
-    img("office.jpg", "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"),
+    st.sidebar.image("https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"),
     use_column_width=True
 )
 st.sidebar.markdown("## Navegación")
@@ -183,9 +175,9 @@ def section_home():
     st.markdown("### Galería")
     st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
     st.markdown(f"""
-      <div class='figure' style="background-image:url('{img('hero.jpg', 'https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80')}');"></div>
-      <div class='figure' style="background-image:url('{img('office.jpg', 'https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg')}');"></div>
-      <div class='figure' style="background-image:url('{img('pattern.jpg', 'https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('hero.jpg', 'https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('office.jpg', 'https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('pattern.jpg', 'https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg')}');"></div>
       <div class='figure' style="background-image:url('https://marketplace.canva.com/MADerCgbmTs/1/thumbnail_large/canva-artificial-intelligence-and-future-concept-MADerCgbmTs.jpg');"></div>
     """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -280,7 +272,7 @@ def section_team():
     st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('jose_botto.jpg', 'https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D')}');"></div>
       <h3 style="margin-top:10px;">Miguel Olivero</h3>
       <div class='small'>Chief AI Officer · Modelos de lenguaje y agentes</div>
       <div class='small'>Arquitectura de soluciones generativas y gobernanza.</div>
@@ -288,7 +280,7 @@ def section_team():
     """, unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('miguel_olivero.jpg', 'https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg')}');"></div>
       <h3 style="margin-top:10px;">José Botto</h3>
       <div class='small'>Chief Communications AI · Comunicación estratégica</div>
       <div class='small'>Personalización omnicanal, tono de marca, A/B testing.</div>
@@ -296,7 +288,7 @@ def section_team():
     """, unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('cecilia_sanchez.jpg', 'https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg')}');"></div>
+      <div class='figure' style="background-image:url('{st.sidebar.image('https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg')}');"></div>
       <h3 style="margin-top:10px;">Cecilia Sánchez</h3>
       <div class='small'>Head of Economist · Macroeconomía y econometría aplicada</div>
       <div class='small'>Series temporales, simulación de escenarios, elasticidades.</div>
