@@ -1,5 +1,5 @@
 import streamlit as st
-from pathlib import Path
+from streamlit.components.v1 import html
 
 # -------------------- CONFIG --------------------
 st.set_page_config(
@@ -8,123 +8,147 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# -------------------- TUS URLs (edita si quieres) --------------------
+URL_HERO_BG = "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg"
+URL_SIDEBAR_IMG = "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9f3aeaa46c17.jpg"
+
+URL_GAL_HERO = "https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80"
+URL_GAL_OFFICE = "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"
+URL_GAL_PATTERN = "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg"
+URL_GAL_CANVA = "https://marketplace.canva.com/MADerCgbmTs/1/thumbnail_large/canva-artificial-intelligence-and-future-concept-MADerCgbmTs.jpg"
+
+# Equipo (verticales, mantener tus imágenes)
+URL_EQ_MIGUEL = "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D"
+URL_EQ_JOSE = "https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg"
+URL_EQ_CECILIA = "https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg"
+URL_EQ_EQUIPO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt6SMBXnRbtjxSJ7k7c43lcv4x7FnUMFjCFA&s"
+
+# Formulario y Chatbot
+GOOGLE_FORM_URL = "https://script.google.com/macros/s/AKfycbzef6VyHqRwCWrzh87gdV53Ud6GOD62emSjOSMlvUxt15cqPGVWHxpT-ce94USfB1E0mw/exec"
+DIALOGFLOW_WIDGET = """
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="Antiqpa_ChatBot"
+  agent-id="372a5eeb-31b9-4777-bfd4-a9a2af72e162"
+  language-code="es"
+></df-messenger>
+"""
+
 # -------------------- GLOBAL STYLES --------------------
-st.markdown("""
+st.markdown(f"""
 <style>
-/* Tipografías (Google Fonts): Inter + Source Serif Pro */
+/* Tipografías */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Source+Serif+Pro:wght@400;600;700&display=swap');
 
-:root{
-  /* Paleta formal: azul petróleo + marfil + dorado sobrio */
+:root{{
   --bg:#0b1220;
   --bg-soft:#0f1a32;
   --panel:#121f3b;
   --panel-2:#18264a;
-  --text:#eef1f7;
-  --muted:#a7b1c7;
-  --accent:#d4b36c;   /* dorado sobrio */
-  --accent-2:#9fb8ff; /* acento secundario frío */
-}
+  --text:#ffffff;         /* TEXTO NORMAL en blanco */
+  --muted:#cfd6ea;        /* texto secundario */
+  --accent:#d4b36c;       /* dorado para títulos y acentos */
+  --accent-2:#9fb8ff;
+}}
 
-html, body, [data-testid="stAppViewContainer"] {
+html, body, [data-testid="stAppViewContainer"] {{
   background: radial-gradient(1200px 600px at 10% -10%, rgba(159,184,255,0.08), transparent 40%),
               radial-gradient(1200px 600px at 90% 0%, rgba(212,179,108,0.10), transparent 40%),
               linear-gradient(180deg, var(--bg), var(--bg-soft) 60%, var(--bg));
   color: var(--text) !important;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial;
-}
+}}
 
-h1, h2 {
-  font-family: "Source Serif Pro", Georgia, serif;
-  letter-spacing: .2px;
-}
-h1 { font-size: 2.6rem; font-weight: 700; }
-h2 { font-size: 1.9rem; font-weight: 700; margin-top: .4rem; }
-h3 { font-size: 1.15rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .8px; }
+h1, h2 {{ font-family: "Source Serif Pro", Georgia, serif; letter-spacing: .2px; color: var(--accent); }}
+h1 {{ font-size: 2.6rem; font-weight: 700; }}
+h2 {{ font-size: 1.9rem; font-weight: 700; margin-top: .4rem; }}
+h3 {{ font-size: 1.15rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .8px; }}
 
-.small { font-size: 0.92rem; color: var(--muted); }
-.muted { color: var(--muted); }
+.small {{ font-size: 0.95rem; color: var(--muted); }}
+.muted {{ color: var(--muted); }}
 
-.badge {
+.badge {{
   display:inline-block; padding: 6px 10px; border-radius: 999px;
-  background: rgba(212,179,108,0.1); color: var(--accent);
+  background: rgba(212,179,108,0.12); color: var(--accent);
   border: 1px solid rgba(212,179,108,0.35); font-weight: 700; font-size: 0.78rem; letter-spacing:.6px;
-}
+}}
 
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
+.card {{
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 18px; padding: 18px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.02);
-}
+  color: var(--text);
+}}
 
-.hero {
+.hero {{
   position: relative;
   border-radius: 22px;
   background:
     linear-gradient(120deg, rgba(159,184,255,0.10), rgba(212,179,108,0.06)),
-    url('""" + st.sidebar.image("https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg") + """');
+    url('{URL_HERO_BG}');
   background-size: cover;
   background-position: center;
   border: 1px solid rgba(255,255,255,0.08);
   overflow: hidden;
-}
-.hero .overlay-shape {
+}}
+.hero .overlay-shape {{
   position:absolute; inset:-40px -20px auto auto; width:380px; height:380px;
   background: radial-gradient(closest-side, rgba(212,179,108,0.20), transparent 60%);
   filter: blur(14px); border-radius: 50%;
-}
-.hero h1 { margin-bottom: 0.2rem; }
-.hero p { color: var(--muted); max-width: 980px; font-size:1.02rem; }
+}}
+.hero h1 {{ margin-bottom: 0.2rem; }}
+.hero p {{ color: var(--text); max-width: 980px; font-size:1.02rem; }}
 
-.kpis { display:grid; gap: 12px; grid-template-columns: repeat(4, minmax(0,1fr)); }
-.kpi { padding:18px; border-radius: 16px; background:var(--panel); border:1px solid rgba(255,255,255,0.06); text-align:center;}
-.kpi .v { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
-.kpi .t { font-size: 0.95rem; color: var(--muted); }
+.kpis {{ display:grid; gap: 12px; grid-template-columns: repeat(4, minmax(0,1fr)); }}
+.kpi {{ padding:18px; border-radius: 16px; background:var(--panel); border:1px solid rgba(255,255,255,0.08); text-align:center;}}
+.kpi .v {{ font-size: 1.6rem; font-weight: 800; color: var(--accent); }}
+.kpi .t {{ font-size: 0.95rem; color: var(--muted); }}
 
-.btn a {
+.btn a {{
   text-decoration: none !important; color: #0b1220 !important; font-weight: 800;
-}
-.btn {
+}}
+.btn {{
   display:inline-block; padding: 12px 18px; border-radius: 12px;
   background: linear-gradient(90deg, var(--accent), #f3d9a4);
   border: none; margin-right: 12px;
-}
+}}
 
-.grid-3 { display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }
-.grid-4 { display:grid; gap: 16px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+.grid-3 {{ display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }}
+.grid-4 {{ display:grid; gap: 16px; grid-template-columns: repeat(4, minmax(0,1fr)); }}
 
-.figure {
-  height: 180px; border-radius: 16px; background-size: cover; background-position: center;
-  border:1px solid rgba(255,255,255,0.08);
-}
+.figure {{
+  height: 200px; border-radius: 16px; background-size: cover; background-position: center;
+  border:1px solid rgba(255,255,255,0.10);
+}}
 
-section[data-testid="stSidebar"] {
+section[data-testid="stSidebar"] {{
   background: linear-gradient(180deg, #0a0f25, #0b1230) !important;
   border-right: 1px solid rgba(255,255,255,0.06);
-}
+}}
 
-/* Detalle formal en tablas/paquetes */
-.pricing {
-  display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr));
-}
-.pricing .tier {
-  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
+.pricing {{ display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }}
+.pricing .tier {{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
   border:1px solid rgba(255,255,255,0.07);
   border-radius:18px; padding:18px;
-}
-.tier h4 { font-size:1.2rem; margin:0 0 2px 0; }
-.tier .price { font-size:1.6rem; font-weight:800; color: var(--accent); }
-.tier ul { margin-top: 8px; }
-.tier li { margin: 4px 0; }
+}}
+.tier h4 {{ font-size:1.2rem; margin:0 0 2px 0; color: var(--accent); }}
+.tier .price {{ font-size:1.6rem; font-weight:800; color: var(--accent); }}
+.tier ul {{ margin-top: 8px; }}
+.tier li {{ margin: 4px 0; color: var(--text); }}
+
+/* EQUIPO: vertical (retrato) y lado a lado en 3 columnas */
+.team-grid {{ display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }}
+.team-card .figure {{ height: 260px; }}  /* más alta para retrato */
+.team-card h3 {{ color: var(--accent); }}
+.team-card .small {{ color: var(--muted); }}
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------- SIDEBAR NAV --------------------
-st.sidebar.image(
-    st.sidebar.image("https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"),
-    use_column_width=True
-)
+st.sidebar.image(URL_SIDEBAR_IMG, use_column_width=True)
 st.sidebar.markdown("## Navegación")
 section = st.sidebar.radio(
     "Ir a la sección:",
@@ -175,10 +199,10 @@ def section_home():
     st.markdown("### Galería")
     st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
     st.markdown(f"""
-      <div class='figure' style="background-image:url('{st.sidebar.image('hero.jpg', 'https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80')}');"></div>
-      <div class='figure' style="background-image:url('{st.sidebar.image('office.jpg', 'https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg')}');"></div>
-      <div class='figure' style="background-image:url('{st.sidebar.image('pattern.jpg', 'https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg')}');"></div>
-      <div class='figure' style="background-image:url('https://marketplace.canva.com/MADerCgbmTs/1/thumbnail_large/canva-artificial-intelligence-and-future-concept-MADerCgbmTs.jpg');"></div>
+      <div class='figure' style="background-image:url('{URL_GAL_HERO}');"></div>
+      <div class='figure' style="background-image:url('{URL_GAL_OFFICE}');"></div>
+      <div class='figure' style="background-image:url('{URL_GAL_PATTERN}');"></div>
+      <div class='figure' style="background-image:url('{URL_GAL_CANVA}');"></div>
     """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -269,59 +293,65 @@ def section_solutions():
 
 def section_team():
     st.markdown("## Nuestro equipo")
-    st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
+    # Grid vertical (retrato) en 3 columnas:
+    st.markdown("<div class='team-grid'>", unsafe_allow_html=True)
+
     st.markdown(f"""
-    <div class='card'>
-      <div class='figure' style="background-image:url('{st.sidebar.image('https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D')}');"></div>
-      <h3 style="margin-top:10px;">Miguel Olivero</h3>
-      <div class='small'>Chief AI Officer · Modelos de lenguaje y agentes</div>
-      <div class='small'>Arquitectura de soluciones generativas y gobernanza.</div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown(f"""
-    <div class='card'>
-      <div class='figure' style="background-image:url('{st.sidebar.image('https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg')}');"></div>
+    <div class='card team-card'>
+      <div class='figure' style="background-image:url('{URL_EQ_JOSE}');"></div>
       <h3 style="margin-top:10px;">José Botto</h3>
       <div class='small'>Chief Communications AI · Comunicación estratégica</div>
       <div class='small'>Personalización omnicanal, tono de marca, A/B testing.</div>
     </div>
     """, unsafe_allow_html=True)
+
     st.markdown(f"""
-    <div class='card'>
-      <div class='figure' style="background-image:url('{st.sidebar.image('https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg')}');"></div>
+    <div class='card team-card'>
+      <div class='figure' style="background-image:url('{URL_EQ_MIGUEL}');"></div>
+      <h3 style="margin-top:10px;">Miguel Olivero</h3>
+      <div class='small'>Chief AI Officer · Modelos de lenguaje y agentes</div>
+      <div class='small'>Arquitectura de soluciones generativas y gobernanza.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div class='card team-card'>
+      <div class='figure' style="background-image:url('{URL_EQ_CECILIA}');"></div>
       <h3 style="margin-top:10px;">Cecilia Sánchez</h3>
       <div class='small'>Head of Economist · Macroeconomía y econometría aplicada</div>
       <div class='small'>Series temporales, simulación de escenarios, elasticidades.</div>
     </div>
     """, unsafe_allow_html=True)
-    # cuarto slot opcional para crecer el equipo
+
+    # (Opcional) cuarto bloque
     st.markdown(f"""
-    <div class='card'>
-      <div class='figure' style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt6SMBXnRbtjxSJ7k7c43lcv4x7FnUMFjCFA&s');"></div>
+    <div class='card team-card'>
+      <div class='figure' style="background-image:url('{URL_EQ_EQUIPO}');"></div>
       <h3 style="margin-top:10px;">Equipo Antiqpa</h3>
       <div class='small'>Ingeniería de datos, ML, seguridad y cumplimiento</div>
       <div class='small'>Implementación, observabilidad y soporte 24/7.</div>
     </div>
     """, unsafe_allow_html=True)
+
     st.markdown("</div>", unsafe_allow_html=True)
 
 def section_contact():
     st.markdown("<a id='contacto'></a>", unsafe_allow_html=True)
     st.markdown("## Contacto")
-    with st.form("contact_form", clear_on_submit=True):
-        c1, c2 = st.columns(2)
-        with c1:
-            name = st.text_input("Nombre completo")
-            company = st.text_input("Empresa")
-            email = st.text_input("Correo")
-        with c2:
-            phone = st.text_input("Teléfono")
-            topic = st.selectbox("Interés", ["Demo", "Cotización", "Soporte", "Otro"])
-            pkg = st.selectbox("Paquete de interés", ["Starter", "Business", "Enterprise"])
-        message = st.text_area("Mensaje", height=120, placeholder="Cuéntanos tu necesidad...")
-        submitted = st.form_submit_button("Enviar")
-        if submitted:
-            st.success("Gracias. Hemos recibido tu solicitud. (Demo)")
+
+    # Formulario incrustado
+    st.markdown("#### Solicita una demo o envíanos un mensaje")
+    html(f"""
+        <iframe src="{GOOGLE_FORM_URL}"
+                width="100%" height="700"
+                style="border:1px solid rgba(255,255,255,0.2); border-radius:12px;">
+        </iframe>
+    """, height=740)
+
+    st.markdown("---")
+    st.markdown("#### Chatbot Antiqpa")
+    # Chatbot Dialogflow incrustado
+    html(DIALOGFLOW_WIDGET, height=600)
 
 # -------------------- ROUTER --------------------
 if section == "Inicio":
