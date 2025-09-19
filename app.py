@@ -13,7 +13,7 @@ if "section" not in st.session_state:
     st.session_state["section"] = "Inicio"
 
 # -------------------- TUS URLs (se mantienen) --------------------
-URL_HERO_BG   = "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg"
+URL_HERO_BG   = "https://admin.live.ilo.org/sites/default/files/styles/desktop/public/2024-07/ai-technology-brain-background-digital-transformation-concept.jpg?itok=wI9Ia9fz"
 URL_SIDEBAR   = "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"
 
 URL_GAL_HERO  = "https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80"
