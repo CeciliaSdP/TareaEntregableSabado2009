@@ -31,6 +31,7 @@ URL_EQ_TEAM   = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt6SMBXnR
 GOOGLE_FORM_URL = "https://script.google.com/macros/s/AKfycbzef6VyHqRwCWrzh87gdV53Ud6GOD62emSjOSMlvUxt15cqPGVWHxpT-ce94USfB1E0mw/exec"
 
 # Este script se ejecuta dentro del iframe del componente y "inyecta" el widget del chatbot en el documento principal
+
 DIALOGFLOW_INJECTOR = """
 <script>
 (function(){
@@ -38,7 +39,6 @@ DIALOGFLOW_INJECTOR = """
     const P = window.parent;
     if (!P || !P.document) return;
 
-    // Agrega el script bootstrap si no existe
     if (!P.document.getElementById('df-messenger-bootstrap')) {
       const s = P.document.createElement('script');
       s.id = 'df-messenger-bootstrap';
@@ -46,36 +46,31 @@ DIALOGFLOW_INJECTOR = """
       P.document.head.appendChild(s);
     }
 
-    // Agrega el contenedor fijado si no existe
     if (!P.document.getElementById('df-messenger-container')) {
       const c = P.document.createElement('div');
       c.id = 'df-messenger-container';
       c.style.position = 'fixed';
       c.style.left = '16px';
       c.style.bottom = '16px';
-      c.style.zIndex = '2147483647'; // top
+      c.style.zIndex = '2147483647';
       c.innerHTML = `
         <df-messenger
           intent="WELCOME"
           chat-title="Antiqpa_ChatBot"
           agent-id="372a5eeb-31b9-4777-bfd4-a9a2af72e162"
-          language-code="es">
+          language-code="es"
+          chat-icon="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128'><text y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='96'>🤖</text></svg>">
         </df-messenger>
       `;
       P.document.body.appendChild(c);
     }
   };
-
-  // Intenta inyectar al cargar, y reintenta un par de veces por si el bootstrap tarda
-  const tryInject = () => {
-    try { ensureChatbot(); } catch(e) {}
-  };
-  document.addEventListener('DOMContentLoaded', tryInject);
-  setTimeout(tryInject, 800);
-  setTimeout(tryInject, 1800);
+  document.addEventListener('DOMContentLoaded', ensureChatbot);
+  setTimeout(ensureChatbot, 800);
 })();
 </script>
 """
+
 
 # -------------------- ESTILOS GLOBALES --------------------
 st.markdown(f"""
