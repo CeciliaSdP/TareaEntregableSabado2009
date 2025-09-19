@@ -8,11 +8,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# -------------------- SESSION STATE (para navegación por botones) --------------------
+# -------------------- SESSION STATE --------------------
 if "section" not in st.session_state:
     st.session_state["section"] = "Inicio"
 
-# -------------------- TUS URLs (manteniendo tus imágenes) --------------------
+# -------------------- TUS URLs (se mantienen) --------------------
 URL_HERO_BG   = "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg"
 URL_SIDEBAR   = "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"
 
@@ -21,7 +21,7 @@ URL_GAL_OFF   = "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4
 URL_GAL_PTRN  = "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg"
 URL_GAL_CANVA = "https://marketplace.canva.com/MADerCgbmTs/1/thumbnail_large/canva-artificial-intelligence-and-future-concept-MADerCgbmTs.jpg"
 
-# Equipo (verticales)
+# Equipo (tarjetas verticales)
 URL_EQ_MIGUEL = "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D"
 URL_EQ_JOSE   = "https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg"
 URL_EQ_CECI   = "https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg"
@@ -29,32 +29,67 @@ URL_EQ_TEAM   = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt6SMBXnR
 
 # Formulario y Chatbot
 GOOGLE_FORM_URL = "https://script.google.com/macros/s/AKfycbzef6VyHqRwCWrzh87gdV53Ud6GOD62emSjOSMlvUxt15cqPGVWHxpT-ce94USfB1E0mw/exec"
-DIALOGFLOW_WIDGET = """
-<div style="position: fixed; left: 16px; bottom: 16px; z-index: 999999;">
-  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-  <df-messenger
-    intent="WELCOME"
-    chat-title="Antiqpa_ChatBot"
-    agent-id="372a5eeb-31b9-4777-bfd4-a9a2af72e162"
-    language-code="es">
-  </df-messenger>
-</div>
+
+# Este script se ejecuta dentro del iframe del componente y "inyecta" el widget del chatbot en el documento principal
+DIALOGFLOW_INJECTOR = """
+<script>
+(function(){
+  const ensureChatbot = () => {
+    const P = window.parent;
+    if (!P || !P.document) return;
+
+    // Agrega el script bootstrap si no existe
+    if (!P.document.getElementById('df-messenger-bootstrap')) {
+      const s = P.document.createElement('script');
+      s.id = 'df-messenger-bootstrap';
+      s.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+      P.document.head.appendChild(s);
+    }
+
+    // Agrega el contenedor fijado si no existe
+    if (!P.document.getElementById('df-messenger-container')) {
+      const c = P.document.createElement('div');
+      c.id = 'df-messenger-container';
+      c.style.position = 'fixed';
+      c.style.left = '16px';
+      c.style.bottom = '16px';
+      c.style.zIndex = '2147483647'; // top
+      c.innerHTML = `
+        <df-messenger
+          intent="WELCOME"
+          chat-title="Antiqpa_ChatBot"
+          agent-id="372a5eeb-31b9-4777-bfd4-a9a2af72e162"
+          language-code="es">
+        </df-messenger>
+      `;
+      P.document.body.appendChild(c);
+    }
+  };
+
+  // Intenta inyectar al cargar, y reintenta un par de veces por si el bootstrap tarda
+  const tryInject = () => {
+    try { ensureChatbot(); } catch(e) {}
+  };
+  document.addEventListener('DOMContentLoaded', tryInject);
+  setTimeout(tryInject, 800);
+  setTimeout(tryInject, 1800);
+})();
+</script>
 """
 
-# -------------------- GLOBAL STYLES --------------------
+# -------------------- ESTILOS GLOBALES --------------------
 st.markdown(f"""
 <style>
-/* Tipografías */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Source+Serif+Pro:wght@400;600;700&display=swap');
 
-:root{{
+:root {{
   --bg:#0b1220;
   --bg-soft:#0f1a32;
   --panel:#121f3b;
   --panel-2:#18264a;
-  --text:#ffffff;    /* texto normal blanco */
-  --muted:#cfd6ea;   /* texto secundario */
-  --accent:#d4b36c;  /* dorado para títulos y subtítulos */
+  --text:#ffffff;   /* texto blanco */
+  --muted:#cfd6ea;  /* secundario */
+  --accent:#d4b36c; /* dorado para títulos/subtítulos */
   --accent-2:#9fb8ff;
 }}
 
@@ -69,41 +104,27 @@ html, body, [data-testid="stAppViewContainer"] {{
 h1, h2, h3 {{
   font-family: "Source Serif Pro", Georgia, serif;
   letter-spacing: .2px;
-  color: var(--accent);   /* títulos/subtítulos dorado */
+  color: var(--accent);  /* títulos/subtítulos dorado */
 }}
 
-h1 {{
-  font-size: 2.6rem;
-  font-weight: 700;
-}}
-/* Borde blanco para el gran título en la HOME */
+h1 {{ font-size: 2.6rem; font-weight: 700; }}
+h2 {{ font-size: 1.9rem; font-weight: 700; margin-top: .4rem; }}
+h3 {{ font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; }}
+
+p, li, div, span {{ color: var(--text); }}
+.small {{ font-size: 0.95rem; color: var(--muted); }}
+.muted {{ color: var(--muted); }}
+
+/* Título con borde blanco en la HOME */
 .hero h1.title-stroke {{
   color: var(--accent);
-  -webkit-text-stroke: 2px #ffffff;     /* borde blanco */
+  -webkit-text-stroke: 2px #ffffff;
   text-shadow:
     1px 1px 0 #ffffff,
     -1px 1px 0 #ffffff,
     1px -1px 0 #ffffff,
     -1px -1px 0 #ffffff;
 }}
-
-h2 {{
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin-top: .4rem;
-}}
-
-h3 {{
-  font-size: 1.15rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .8px;
-}}
-
-p, li, div, span {{ color: var(--text); }}
-
-.small {{ font-size: 0.95rem; color: var(--muted); }}
-.muted {{ color: var(--muted); }}
 
 .badge {{
   display:inline-block; padding: 6px 10px; border-radius: 999px;
@@ -142,15 +163,6 @@ p, li, div, span {{ color: var(--text); }}
 .kpi .v {{ font-size: 1.6rem; font-weight: 800; color: var(--accent); }}
 .kpi .t {{ font-size: 0.95rem; color: var(--muted); }}
 
-.btn a {{
-  text-decoration: none !important; color: #0b1220 !important; font-weight: 800;
-}}
-.btn {{
-  display:inline-block; padding: 12px 18px; border-radius: 12px;
-  background: linear-gradient(90deg, var(--accent), #f3d9a4);
-  border: none; margin-right: 12px;
-}}
-
 .grid-3 {{ display:grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }}
 .grid-4 {{ display:grid; gap: 16px; grid-template-columns: repeat(4, minmax(0,1fr)); }}
 
@@ -159,16 +171,19 @@ p, li, div, span {{ color: var(--text); }}
   border:1px solid rgba(255,255,255,0.10);
 }}
 
+/* Sidebar: "Navegación" dorado; opciones del radio en blanco */
 section[data-testid="stSidebar"] {{
   background: linear-gradient(180deg, #0a0f25, #0b1230) !important;
   border-right: 1px solid rgba(255,255,255,0.06);
 }}
-/* "Navegación" dorado y opciones blancas */
 section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] h3 {{
-  color: var(--accent) !important;
+  color: var(--accent) !important;    /* Encabezado "Navegación" en dorado */
 }}
-section[data-testid="stSidebar"] div[role="radiogroup"] label p {{
-  color: #ffffff !important;
+section[data-testid="stSidebar"] [role="radiogroup"] label,
+section[data-testid="stSidebar"] [role="radiogroup"] label span,
+section[data-testid="stSidebar"] [role="radiogroup"] label p,
+section[data-testid="stSidebar"] [role="radiogroup"] label div {{
+  color: #ffffff !important;          /* opciones en blanco */
 }}
 
 /* Pricing */
@@ -191,10 +206,9 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label p {{
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------- SIDEBAR NAV --------------------
+# -------------------- SIDEBAR --------------------
 st.sidebar.image(URL_SIDEBAR, use_column_width=True)
 st.sidebar.markdown("## Navegación")
-# Radio ligado a session_state
 section = st.sidebar.radio(
     label="Ir a la sección:",
     options=["Inicio", "Quiénes somos", "Productos", "Paquetes", "Soluciones", "Equipo", "Contacto"],
@@ -213,38 +227,8 @@ def section_home():
       <span class="badge">IA Generativa Empresarial</span>
       <h1 class="title-stroke">Antiqpa Solutions</h1>
       <p>Soluciones de Inteligencia Artificial Generativa para organizaciones que exigen <b>precisión</b>, <b>rapidez</b> y <b>gobernanza</b>. Integramos economía, administración y comunicaciones en flujos de valor medibles.</p>
-      <div style="margin-top:12px;">
-        <span class="btn"><a href="#" onclick="parent.postMessage({{type: 'goto', to: 'Contacto'}}, '*'); return false;">Solicitar una demo</a></span>
-        <span class="btn"><a href="#" onclick="parent.postMessage({{type: 'goto', to: 'Productos'}}, '*'); return false;">Ver productos</a></span>
-      </div>
     </div>
     """, unsafe_allow_html=True)
-
-    # Listener para cambiar sección desde los botones (via postMessage)
-    html("""
-    <script>
-      window.addEventListener('message', (e)=>{
-        try{
-          if(e.data && e.data.type==='goto'){
-            const to = e.data.to;
-            const streamlitDoc = window.parent || window;
-            streamlitDoc.streamlitSendMessage && streamlitDoc.streamlitSendMessage({type:"streamlit:setComponentValue", value: to});
-          }
-        }catch(err){}
-      });
-    </script>
-    """, height=0)
-
-    # Botones funcionales con Python (alternativa robusta sin JS)
-    cta1, cta2 = st.columns([1,1])
-    with cta1:
-        if st.button("Solicitar una demo →", use_container_width=True):
-            st.session_state["section"] = "Contacto"
-            st.experimental_rerun()
-    with cta2:
-        if st.button("Ver productos →", use_container_width=True):
-            st.session_state["section"] = "Productos"
-            st.experimental_rerun()
 
     st.markdown("<div class='kpis'>", unsafe_allow_html=True)
     st.markdown("""
@@ -400,13 +384,19 @@ Si deseas conversar con nuestro equipo, **solicita una demo** o **déjanos un me
 También puedes escribirnos a **contacto@antiqpa.com** o llamarnos al **+51 123 456 789**.
     """)
 
-    # Formulario incrustado
+    # Formulario incrustado (si el dominio permite iframe)
     html(f"""
         <iframe src="{GOOGLE_FORM_URL}"
                 width="100%" height="700"
-                style="border:1px solid rgba(255,255,255,0.2); border-radius:12px;">
+                style="border:1px solid rgba(255,255,255,0.2); border-radius:12px; background:#fff;">
         </iframe>
     """, height=740)
+
+    # Enlace alternativo por si el proveedor bloquea iframes (X-Frame-Options)
+    st.markdown(
+        f'<div style="margin-top:8px;"><a class="btn" href="{GOOGLE_FORM_URL}" target="_blank">Abrir formulario en una nueva pestaña</a></div>',
+        unsafe_allow_html=True
+    )
 
 # -------------------- ROUTER --------------------
 if st.session_state["section"] == "Inicio":
@@ -424,8 +414,9 @@ elif st.session_state["section"] == "Equipo":
 elif st.session_state["section"] == "Contacto":
     section_contact()
 
-# -------------------- CHATBOT (siempre visible, esquina inferior izquierda) --------------------
-html(DIALOGFLOW_WIDGET, height=0)
+# -------------------- CHATBOT (esquina inferior izquierda, visible en todas las páginas) --------------------
+# Inyectamos el widget en el documento principal para que flote por encima de la app
+html(DIALOGFLOW_INJECTOR, height=0)
 
 # -------------------- FOOTER --------------------
 st.markdown("---")
