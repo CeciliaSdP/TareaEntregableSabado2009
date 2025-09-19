@@ -379,14 +379,6 @@ Si deseas conversar con nuestro equipo, **solicita una demo** o **déjanos un me
 También puedes escribirnos a **contacto@antiqpa.com** o llamarnos al **+51 123 456 789**.
     """)
 
-    # Formulario incrustado (si el dominio permite iframe)
-    html(f"""
-        <iframe src="{GOOGLE_FORM_URL}"
-                width="100%" height="700"
-                style="border:1px solid rgba(255,255,255,0.2); border-radius:12px; background:#fff;">
-        </iframe>
-    """, height=740)
-
     # Enlace alternativo por si el proveedor bloquea iframes (X-Frame-Options)
     st.markdown(
         f'<div style="margin-top:8px;"><a class="btn" href="{GOOGLE_FORM_URL}" target="_blank">Abrir formulario en una nueva pestaña</a></div>',
