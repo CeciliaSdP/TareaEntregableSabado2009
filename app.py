@@ -71,7 +71,7 @@ h3 { font-size: 1.15rem; font-weight: 700; color: var(--accent); text-transform:
   border-radius: 22px;
   background:
     linear-gradient(120deg, rgba(159,184,255,0.10), rgba(212,179,108,0.06)),
-    url('""" + img("pattern.jpg", "https://images.unsplash.com/photo-1520975922284-5f1a6f3d6c5a?auto=format&fit=crop&w=1600&q=80") + """');
+    url('""" + img("pattern.jpg", "https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg") + """');
   background-size: cover;
   background-position: center;
   border: 1px solid rgba(255,255,255,0.08);
@@ -130,7 +130,7 @@ section[data-testid="stSidebar"] {
 
 # -------------------- SIDEBAR NAV --------------------
 st.sidebar.image(
-    img("office.jpg", "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"),
+    img("office.jpg", "https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg"),
     use_column_width=True
 )
 st.sidebar.markdown("## Navegación")
@@ -183,10 +183,10 @@ def section_home():
     st.markdown("### Galería")
     st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
     st.markdown(f"""
-      <div class='figure' style="background-image:url('{img('hero.jpg', 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1600&q=80')}');"></div>
-      <div class='figure' style="background-image:url('{img('office.jpg', 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80')}');"></div>
-      <div class='figure' style="background-image:url('{img('pattern.jpg', 'https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1600&q=80')}');"></div>
-      <div class='figure' style="background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=80');"></div>
+      <div class='figure' style="background-image:url('{img('hero.jpg', 'https://img.freepik.com/free-psd/futuristic-robot-using-laptop_191095-85585.jpg?semt=ais_incoming&w=740&q=80')}');"></div>
+      <div class='figure' style="background-image:url('{img('office.jpg', 'https://imgcdn.stablediffusionweb.com/2024/9/17/5af8326d-0ef5-4a79-9e37-9f3aeaa46c17.jpg')}');"></div>
+      <div class='figure' style="background-image:url('{img('pattern.jpg', 'https://img.computing.es/wp-content/uploads/2024/01/19110432/Inteligencia-Artificial.jpg')}');"></div>
+      <div class='figure' style="background-image:url('https://marketplace.canva.com/MADerCgbmTs/1/thumbnail_large/canva-artificial-intelligence-and-future-concept-MADerCgbmTs.jpg');"></div>
     """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -280,32 +280,32 @@ def section_team():
     st.markdown("<div class='grid-4'>", unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('jose_botto.jpg', 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1400&q=80')}');"></div>
-      <h3 style="margin-top:10px;">José Botto</h3>
+      <div class='figure' style="background-image:url('{img('jose_botto.jpg', 'https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8U2FsdWRhciUyMGElMjBsYSUyMHJvYiVDMyVCM3RpY2F8ZW58MHx8MHx8fDA%3D')}');"></div>
+      <h3 style="margin-top:10px;">Miguel Olivero</h3>
       <div class='small'>Chief AI Officer · Modelos de lenguaje y agentes</div>
       <div class='small'>Arquitectura de soluciones generativas y gobernanza.</div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('miguel_olivero.jpg', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1400&q=80')}');"></div>
-      <h3 style="margin-top:10px;">Miguel Olivero</h3>
-      <div class='small'>Chief Economist · Macro aplicada y pricing</div>
-      <div class='small'>Series temporales, simulación de escenarios, elasticidades.</div>
+      <div class='figure' style="background-image:url('{img('miguel_olivero.jpg', 'https://storage.googleapis.com/bucket-two-leobotics/product/robot-humanoide-mouvements-et-depacement-autonome-robothespian-engineered-arts-1-1.jpg')}');"></div>
+      <h3 style="margin-top:10px;">José Botto</h3>
+      <div class='small'>Chief Communications AI · Comunicación estratégica</div>
+      <div class='small'>Personalización omnicanal, tono de marca, A/B testing.</div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('{img('cecilia_sanchez.jpg', 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=1400&q=80')}');"></div>
+      <div class='figure' style="background-image:url('{img('cecilia_sanchez.jpg', 'https://png.pngtree.com/png-clipart/20200328/ourmid/pngtree-artificial-intelligence-management-system-robot-png-image_2165259.jpg')}');"></div>
       <h3 style="margin-top:10px;">Cecilia Sánchez</h3>
-      <div class='small'>Head of Communications AI · Comunicación estratégica</div>
-      <div class='small'>Personalización omnicanal, tono de marca, A/B testing.</div>
+      <div class='small'>Head of Economist · Macroeconomía y econometría aplicada</div>
+      <div class='small'>Series temporales, simulación de escenarios, elasticidades.</div>
     </div>
     """, unsafe_allow_html=True)
     # cuarto slot opcional para crecer el equipo
     st.markdown(f"""
     <div class='card'>
-      <div class='figure' style="background-image:url('https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1400&q=80');"></div>
+      <div class='figure' style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt6SMBXnRbtjxSJ7k7c43lcv4x7FnUMFjCFA&s');"></div>
       <h3 style="margin-top:10px;">Equipo Antiqpa</h3>
       <div class='small'>Ingeniería de datos, ML, seguridad y cumplimiento</div>
       <div class='small'>Implementación, observabilidad y soporte 24/7.</div>
