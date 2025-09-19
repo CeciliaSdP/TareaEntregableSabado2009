@@ -56,7 +56,7 @@ DIALOGFLOW_INJECTOR = """
       c.innerHTML = `
         <df-messenger
           intent="WELCOME"
-          chat-title="Antiqpa_ChatBot"
+          chat-title="Virtual Yanapaq"
           agent-id="372a5eeb-31b9-4777-bfd4-a9a2af72e162"
           language-code="es"
           chat-icon="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128'><text y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='96'>🤖</text></svg>">
